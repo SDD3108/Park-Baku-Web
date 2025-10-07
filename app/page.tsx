@@ -1,4 +1,3 @@
-import Image from "next/image";
 import SendCheckPage from "./(pages)/sendCheckPage";
 
 export default function Home() {

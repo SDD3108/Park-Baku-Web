@@ -4,7 +4,7 @@ import SendCheckPageBuilder from '@/pageBuilder/sendCheckPageBuilder'
 const SendCheckPage = () => {
   return (
     <>
-        <SendCheckPageBuilder/>
+      <SendCheckPageBuilder/>
     </>
   )
 }
