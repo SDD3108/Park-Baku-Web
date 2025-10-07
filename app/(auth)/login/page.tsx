@@ -14,10 +14,10 @@ import Image from 'next/image';
 
 // Predefined accounts for different roles
 const PREDEFINED_ACCOUNTS = [
-  { username: 'admin', password: 'admin123', role: 'admin', name: 'Administrator' },
-  { username: 'accountant', password: 'accountant123', role: 'accountant', name: 'Chief Accountant' },
-  { username: 'cashier', password: 'cashier123', role: 'cashier', name: 'Head Cashier' }
-];
+  { username: 'admin', password: '3108', role: 'admin', name: 'Administrator' },
+  { username: 'asem', password: '1234', role: 'accountant', name: 'Chief Accountant' },
+  { username: 'cashier', password: '1111', role: 'cashier', name: 'Head Cashier' }
+]
 
 const Login = () => {
   const [username, setUsername] = useState('');
