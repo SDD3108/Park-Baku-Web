@@ -22,16 +22,16 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo Section */}
+          {/* Логотип */}
           <div className="flex items-center space-x-3">
-            <Image src={logo} alt="logo" width={120} height={120} />
+            <Image src={logo} alt="логотип" width={120} height={120} />
             <div>
               <h1 className="text-xl font-bold text-stone-900">Park Baku</h1>
-              <p className="text-sm text-stone-500">Send Guest Checks</p>
+              <p className="text-sm text-stone-500">Отправка гостевых чеков</p>
             </div>
           </div>
 
-          {/* Navigation Menu */}
+          {/* Навигационное меню */}
           <div className="flex items-center space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -39,7 +39,7 @@ const Header = () => {
                   variant="ghost" 
                   className="flex items-center space-x-2 text-stone-700 hover:text-burgundy-600 hover:bg-stone-50 transition-colors"
                 >
-                  <span>Navigation</span>
+                  <span>Навигация</span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -52,14 +52,14 @@ const Header = () => {
                   onClick={() => window.location.href = '/send'}
                 >
                   <Send className="h-4 w-4" />
-                  <span>Send Check</span>
+                  <span>Отправить чек</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   className="flex items-center space-x-2 cursor-pointer text-stone-700 hover:text-burgundy-600 hover:bg-stone-50 transition-colors"
                   onClick={() => window.location.href = '/popular'}
                 >
                   <BarChart3 className="h-4 w-4" />
-                  <span>Popular Dishes</span>
+                  <span>Популярные блюда</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -55,7 +55,7 @@ const SendCheckPageBuilder = () => {
   const [guestsLoading, setGuestsLoading] = useState(true)
   const [isDragOver, setIsDragOver] = useState(false)
   const router = useRouter()
-  // router.push('')
+
   useEffect(()=>{
     const fetchGuests = async()=>{
       try{
@@ -63,13 +63,13 @@ const SendCheckPageBuilder = () => {
         const response = await api.get('/customers/')
         const guestData = response.data.map((guest:any)=>({
           value: guest.customer_id,
-          label:`Guest ${guest.customer_id}`,
+          label:`Гость ${guest.customer_id}`,
         }))
         setGuests(guestData)
       }
       catch(error){
-        console.error('Error fetching guests',error);
-        toast.error('Failed to load guests')
+        console.error('Ошибка при получении списка гостей',error);
+        toast.error('Не удалось загрузить гостей')
       }
       finally{
         setGuestsLoading(false)
@@ -105,7 +105,7 @@ const SendCheckPageBuilder = () => {
       parseExcelFile(selectedFile)
     }
     else{
-      toast.error('Please select a valid Excel file (.xlsx, .xls, .csv)')
+      toast.error('Пожалуйста, выберите корректный Excel-файл (.xlsx, .xls, .csv)')
       setFile(null)
     }
   }
@@ -126,11 +126,11 @@ const SendCheckPageBuilder = () => {
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
         const parsedData = parseExcelData(jsonData)
         setParsedCheck(parsedData)
-        toast.success(`Parsed ${parsedData.dishes.length} dishes from check`)
+        toast.success(`Обработано ${parsedData.dishes.length} позиций из чека`)
       }
       catch(error){
-        console.error('Error parsing Excel file', error);
-        toast.error('Error parsing Excel file')
+        console.error('Ошибка при разборе Excel-файла', error);
+        toast.error('Ошибка при разборе Excel-файла')
       }
     }
     reader.readAsArrayBuffer(file)
@@ -198,11 +198,11 @@ const SendCheckPageBuilder = () => {
   const removeFile = ()=>{
     setFile(null)
     setParsedCheck(null)
-    toast.info('File removed')
+    toast.info('Файл удалён')
   }
   const handleSubmit = async()=>{
     if(!guestId || !file || !parsedCheck){
-      toast.error('Please select a guest and upload a valid Excel file')
+      toast.error('Выберите гостя и загрузите корректный Excel-файл')
       return
     }
     setIsLoading(true)
@@ -217,9 +217,9 @@ const SendCheckPageBuilder = () => {
           table_number: parsedCheck.table_number
         }))
       }
-      const response = await api.post('/orders/with-dishes/',payload)
+      await api.post('/orders/with-dishes/',payload)
       setIsSuccess(true)
-      toast.success(`Successfully sent ${parsedCheck.dishes.length} dishes from check!`)
+      toast.success(`Успешно отправлено ${parsedCheck.dishes.length} позиций из чека!`)
       setTimeout(()=>{
         setIsSuccess(false)
         setGuestId('')
@@ -228,12 +228,12 @@ const SendCheckPageBuilder = () => {
       },3000)
     }
     catch(error:any){
-      console.error('Error sending check',error);
+      console.error('Ошибка при отправке чека',error);
       if(error.response?.data?.error){
-        toast.error(`Error: ${error.response.data.error}`)
+        toast.error(`Ошибка: ${error.response.data.error}`)
       }
       else{
-        toast.error('Error sending check. Please try again.')
+        toast.error('Ошибка при отправке чека. Попробуйте снова.')
       }
     }
     finally{
@@ -247,27 +247,27 @@ const SendCheckPageBuilder = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <Card className="w-full max-w-4xl mx-auto shadow-lg border-stone-200">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-2xl font-bold text-stone-900">Send Guest Check </CardTitle>
-              <CardDescription className="text-stone-600">Select a guest and upload their Excel check file</CardDescription>
+              <CardTitle className="text-2xl font-bold text-stone-900">Отправка чека гостя</CardTitle>
+              <CardDescription className="text-stone-600">Выберите гостя и загрузите его Excel-файл с чеком</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="guest-search" className="text-stone-700 flex items-center gap-2">
                   <Users className="h-4 w-4" />
-                  Select Guest ID
+                  Выберите ID гостя
                 </Label>
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between border-stone-300 bg-white">
-                      {guestId ? guests.find((guest) => guest.value === guestId)?.label : "Select guest..."}
+                      {guestId ? guests.find((guest) => guest.value === guestId)?.label : "Выберите гостя..."}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">
                     <Command>
-                      <CommandInput placeholder="Search guest..." className="h-9" />
+                      <CommandInput placeholder="Поиск гостя..." className="h-9" />
                       <CommandList>
-                        <CommandEmpty>{guestsLoading ? "Loading guests..." : "No guest found."}</CommandEmpty>
+                        <CommandEmpty>{guestsLoading ? "Загрузка списка гостей..." : "Гость не найден."}</CommandEmpty>
                         <CommandGroup>
                           {guestsLoading ? (
                             Array.from({ length: 3 }).map((_,index)=>(
@@ -282,7 +282,7 @@ const SendCheckPageBuilder = () => {
                                 onSelect={(currentValue)=>{
                                   setGuestId(currentValue == guestId ? "" : currentValue)
                                   setOpen(false)
-                                  toast.success(`Guest ${currentValue} selected`)
+                                  toast.success(`Гость ${currentValue} выбран`)
                                 }}
                               >
                                 <Check className={cn( "mr-2 h-4 w-4", guestId == guest.value ? "opacity-100" : "opacity-0")}/>
@@ -296,10 +296,11 @@ const SendCheckPageBuilder = () => {
                   </PopoverContent>
                 </Popover>
               </div>
+
               <div className="space-y-3">
                 <Label className="text-stone-700 flex items-center gap-2">
                   <FileSpreadsheet className="h-4 w-4" />
-                  Upload Excel Check File
+                  Загрузите Excel-файл с чеком
                 </Label>
                 <motion.div
                   className={cn(
@@ -318,7 +319,7 @@ const SendCheckPageBuilder = () => {
                     <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center">
                       <FileSpreadsheet className="h-12 w-12 text-burgundy-600 mb-2" />
                       <p className="text-sm font-medium text-stone-900 mb-1">{file.name}</p>
-                      <p className="text-xs text-stone-500 mb-3">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      <p className="text-xs text-stone-500 mb-3">{(file.size / 1024 / 1024).toFixed(2)} МБ</p>
                       <Button variant="outline" size="sm"
                         onClick={(e)=>{
                           e.stopPropagation()
@@ -327,21 +328,22 @@ const SendCheckPageBuilder = () => {
                         className="text-red-600 border-red-300 hover:bg-red-50"
                       >
                         <X className="h-3 w-3 mr-1" />
-                        Remove File
+                        Удалить файл
                       </Button>
                     </motion.div>
                   ) : (
                     <div className="flex flex-col items-center">
                       <FileSpreadsheet className="h-12 w-12 text-stone-400 mb-3" />
-                      <p className="text-sm font-medium text-stone-900 mb-1">Drag & drop your Excel file here</p>
-                      <p className="text-xs text-stone-500 mb-3">or click to browse files</p>
-                      <p className="text-xs text-stone-400">Supports .xlsx, .xls, .csv files</p>
+                      <p className="text-sm font-medium text-stone-900 mb-1">Перетащите Excel-файл сюда</p>
+                      <p className="text-xs text-stone-500 mb-3">или нажмите, чтобы выбрать файл</p>
+                      <p className="text-xs text-stone-400">Поддерживаются файлы .xlsx, .xls, .csv</p>
                     </div>
                   )}
                 </motion.div>
 
-                <p className="text-sm text-stone-500 text-center">Only Excel files containing guest check data are accepted</p>
+                <p className="text-sm text-stone-500 text-center">Принимаются только Excel-файлы, содержащие данные чека гостя</p>
               </div>
+
               <Button
                 onClick={handleSubmit}
                 disabled={!guestId || !file || isLoading}
@@ -352,40 +354,43 @@ const SendCheckPageBuilder = () => {
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending Check...</div>
+                    <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Отправка чека...
+                  </div>
                 ) : isSuccess ? (
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4" />
-                    Check Sent Successfully!
+                    Чек успешно отправлен!
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
                     <Upload className="h-4 w-4" />
-                    Send Check
+                    Отправить чек
                   </div>
                 )}
               </Button>
+
               {parsedCheck && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} transition={{ duration: 0.3 }}>
                   <Card className="bg-stone-50 border-stone-200">
                     <CardHeader className="py-3">
                       <CardTitle className="text-sm font-medium text-burgundy-600 flex items-center gap-2">
                         <Receipt className="h-4 w-4" />
-                        Parsed Check Preview
+                        Предпросмотр обработанного чека
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="py-2">
                       <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-white rounded-lg border">
                         <div>
-                          <p className="text-xs text-stone-500">Order #</p>
+                          <p className="text-xs text-stone-500">Номер заказа</p>
                           <p className="text-sm font-medium">{parsedCheck.order_number}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-stone-500">Table</p>
+                          <p className="text-xs text-stone-500">Стол</p>
                           <p className="text-sm font-medium">{parsedCheck.table_number}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-stone-500">Guest</p>
+                          <p className="text-xs text-stone-500">Гость</p>
                           <p className="text-sm font-medium">{parsedCheck.guest_number}</p>
                         </div>
                       </div>
@@ -398,15 +403,15 @@ const SendCheckPageBuilder = () => {
                               <p className="text-xs text-stone-500">{dish.waiter} • {dish.dish_code}</p>
                             </div>
                             <div className="col-span-2 text-center">
-                              <p className="text-stone-600">Qty</p>
+                              <p className="text-stone-600">Кол-во</p>
                               <p className="font-medium">{dish.quantity}</p>
                             </div>
                             <div className="col-span-2 text-right">
-                              <p className="text-stone-600">Price</p>
+                              <p className="text-stone-600">Цена</p>
                               <p className="font-medium">{dish.price} тг</p>
                             </div>
                             <div className="col-span-2 text-right">
-                              <p className="text-stone-600">Amount</p>
+                              <p className="text-stone-600">Сумма</p>
                               <p className="font-medium text-burgundy-600">{dish.final_amount} тг</p>
                             </div>
                           </motion.div>
@@ -415,12 +420,8 @@ const SendCheckPageBuilder = () => {
 
                       <div className="mt-4 pt-4 border-t border-stone-200">
                         <div className="flex justify-between items-center">
-                          <span className="text-stone-600">Total Amount:</span>
+                          <span className="text-stone-600">Итоговая сумма:</span>
                           <span className="text-lg font-bold text-burgundy-600">{parsedCheck.total_final_amount} тг</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-stone-500">Items: {parsedCheck.dishes.length}</span>
-                          <span className="text-stone-500">Base: {parsedCheck.total_amount} тг</span>
                         </div>
                       </div>
                     </CardContent>
@@ -432,7 +433,7 @@ const SendCheckPageBuilder = () => {
         </motion.div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default SendCheckPageBuilder

@@ -45,15 +45,15 @@ const PopularProductPage = () => {
       setPopularDishes(sortedData);
     }
     catch(error){
-      console.error('Error fetching popular dishes:', error);
-      toast.error('Failed to load popular dishes');
+      console.error('Ошибка при загрузке популярных блюд:', error);
+      toast.error('Не удалось загрузить популярные блюда');
     } finally {
       setIsLoading(false);
     }
   };
 
   const exportToCSV = () => {
-    const headers = ['Rank', 'Dish Name', 'Total Orders', 'Total Quantity', 'Total Revenue (тг)'];
+    const headers = ['Рейтинг', 'Название блюда', 'Всего заказов', 'Количество порций', 'Общая выручка (тг)'];
     const csvData = popularDishes.map(dish => [
       dish.rank,
       `"${dish.name}"`,
@@ -71,11 +71,11 @@ const PopularProductPage = () => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `popular-dishes-${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `популярные-блюда-${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
     window.URL.revokeObjectURL(url);
     
-    toast.success('Data exported to CSV');
+    toast.success('Данные экспортированы в CSV');
   };
 
   const getRankColor = (rank: number) => {
@@ -116,21 +116,21 @@ const PopularProductPage = () => {
                   </div>
                   <div className="text-left">
                     <CardTitle className="text-2xl font-bold text-stone-900">
-                      Popular Dishes
+                      Популярные блюда
                     </CardTitle>
                     <CardDescription className="text-stone-600">
-                      Most ordered dishes and revenue statistics
+                      Самые заказываемые блюда и статистика по выручке
                     </CardDescription>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-3">
-                  {/* Time Range Filters */}
+                  {/* Фильтры по времени */}
                   <div className="flex bg-stone-100 rounded-lg p-1">
                     {[
-                      { value: 'all', label: 'All Time' },
-                      { value: 'month', label: 'This Month' },
-                      { value: 'week', label: 'This Week' }
+                      { value: 'all', label: 'За всё время' },
+                      { value: 'month', label: 'Этот месяц' },
+                      { value: 'week', label: 'Эта неделя' }
                     ].map((range) => (
                       <Button
                         key={range.value}
@@ -155,14 +155,14 @@ const PopularProductPage = () => {
                     className="border-stone-300 text-stone-700 hover:bg-stone-100"
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Export CSV
+                    Экспорт CSV
                   </Button>
                 </div>
               </div>
             </CardHeader>
             
             <CardContent className="p-6">
-              {/* Statistics Cards */}
+              {/* Статистические карточки */}
               {!isLoading && popularDishes.length > 0 && (
                 <motion.div 
                   className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
@@ -174,7 +174,7 @@ const PopularProductPage = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-stone-600">Total Items Tracked</p>
+                          <p className="text-sm font-medium text-stone-600">Всего блюд</p>
                           <p className="text-2xl font-bold text-stone-900">{popularDishes.length}</p>
                         </div>
                         <BarChart3 className="h-8 w-8 text-burgundy-600" />
@@ -186,7 +186,7 @@ const PopularProductPage = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-stone-600">Most Popular</p>
+                          <p className="text-sm font-medium text-stone-600">Самое популярное</p>
                           <p className="text-lg font-bold text-stone-900 truncate max-w-[120px]">
                             {popularDishes[0]?.name}
                           </p>
@@ -200,7 +200,7 @@ const PopularProductPage = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-stone-600">Total Revenue</p>
+                          <p className="text-sm font-medium text-stone-600">Общая выручка</p>
                           <p className="text-2xl font-bold text-stone-900">
                             {popularDishes.reduce((sum, dish) => sum + dish.total_revenue, 0).toLocaleString()} тг
                           </p>
@@ -212,16 +212,16 @@ const PopularProductPage = () => {
                 </motion.div>
               )}
 
-              {/* Table */}
+              {/* Таблица */}
               <Card className="border-stone-200">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-stone-100 hover:bg-stone-100">
-                      <TableHead className="w-20 text-center font-semibold text-stone-900">Rank</TableHead>
-                      <TableHead className="font-semibold text-stone-900">Dish Name</TableHead>
-                      <TableHead className="text-center font-semibold text-stone-900">Total Orders</TableHead>
-                      <TableHead className="text-center font-semibold text-stone-900">Total Quantity</TableHead>
-                      <TableHead className="text-right font-semibold text-stone-900">Total Revenue</TableHead>
+                      <TableHead className="w-20 text-center font-semibold text-stone-900">Рейтинг</TableHead>
+                      <TableHead className="font-semibold text-stone-900">Название блюда</TableHead>
+                      <TableHead className="text-center font-semibold text-stone-900">Всего заказов</TableHead>
+                      <TableHead className="text-center font-semibold text-stone-900">Количество</TableHead>
+                      <TableHead className="text-right font-semibold text-stone-900">Выручка</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -271,11 +271,11 @@ const PopularProductPage = () => {
                           </TableCell>
                           <TableCell className="text-center">
                             <span className="font-semibold text-stone-700">{dish.total_orders}</span>
-                            <span className="text-sm text-stone-500 ml-1">orders</span>
+                            <span className="text-sm text-stone-500 ml-1">заказов</span>
                           </TableCell>
                           <TableCell className="text-center">
                             <span className="font-semibold text-burgundy-600">{dish.total_quantity}</span>
-                            <span className="text-sm text-stone-500 ml-1">items</span>
+                            <span className="text-sm text-stone-500 ml-1">шт.</span>
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex items-center justify-end space-x-2">
@@ -294,14 +294,14 @@ const PopularProductPage = () => {
                         <TableCell colSpan={5} className="text-center py-8">
                           <div className="flex flex-col items-center space-y-2">
                             <BarChart3 className="h-12 w-12 text-stone-300" />
-                            <p className="text-stone-500">No data available</p>
+                            <p className="text-stone-500">Данные отсутствуют</p>
                             <Button 
                               onClick={fetchPopularDishes}
                               variant="outline"
                               size="sm"
                               className="mt-2 border-stone-300"
                             >
-                              Try Again
+                              Повторить попытку
                             </Button>
                           </div>
                         </TableCell>
@@ -311,7 +311,7 @@ const PopularProductPage = () => {
                 </Table>
               </Card>
 
-              {/* Summary */}
+              {/* Сводка */}
               {!isLoading && popularDishes.length > 0 && (
                 <motion.div 
                   className="mt-6 p-4 bg-stone-50 rounded-lg border border-stone-200"
@@ -321,23 +321,23 @@ const PopularProductPage = () => {
                 >
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div className="text-center">
-                      <p className="text-stone-600">Total Dishes</p>
+                      <p className="text-stone-600">Всего блюд</p>
                       <p className="font-semibold text-stone-900">{popularDishes.length}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-stone-600">Total Orders</p>
+                      <p className="text-stone-600">Всего заказов</p>
                       <p className="font-semibold text-stone-900">
                         {popularDishes.reduce((sum, dish) => sum + dish.total_orders, 0)}
                       </p>
                     </div>
                     <div className="text-center">
-                      <p className="text-stone-600">Total Items Sold</p>
+                      <p className="text-stone-600">Всего продано</p>
                       <p className="font-semibold text-stone-900">
                         {popularDishes.reduce((sum, dish) => sum + dish.total_quantity, 0)}
                       </p>
                     </div>
                     <div className="text-center">
-                      <p className="text-stone-600">Total Revenue</p>
+                      <p className="text-stone-600">Общая выручка</p>
                       <p className="font-semibold text-stone-900">
                         {popularDishes.reduce((sum, dish) => sum + dish.total_revenue, 0).toLocaleString()} тг
                       </p>

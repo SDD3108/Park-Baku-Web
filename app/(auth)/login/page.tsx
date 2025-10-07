@@ -1,22 +1,22 @@
 "use client"
 import React, { useState } from 'react';
-import { motion,easeInOut  } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/ui/card';
+import { motion, easeInOut } from 'framer-motion';
+import { Card, CardContent, CardDescription, CardHeader } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Label } from '@/ui/label';
-import { Eye, EyeOff, User, Lock, Gem } from 'lucide-react';
+import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/components/AuthComponent/AuthComponent';
 import { useRouter } from 'next/navigation';
 import logo from '../../../assets/logo/logo.jpg'
 import Image from 'next/image';
 
-// Predefined accounts for different roles
+// Предустановленные аккаунты для разных ролей
 const PREDEFINED_ACCOUNTS = [
-  { username: 'admin', password: '3108', role: 'admin', name: 'Administrator' },
-  { username: 'asem', password: '1234', role: 'accountant', name: 'Chief Accountant' },
-  { username: 'cashier', password: '1111', role: 'cashier', name: 'Head Cashier' }
+  { username: 'admin', password: '3108', role: 'admin', name: 'Администратор' },
+  { username: 'asem', password: '1234', role: 'accountant', name: 'Главный бухгалтер' },
+  { username: 'cashier', password: '1111', role: 'cashier', name: 'Старший кассир' }
 ]
 
 const Login = () => {
@@ -33,13 +33,12 @@ const Login = () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const account = PREDEFINED_ACCOUNTS.find((acc) => acc.username == username && acc.password == password)
-    if(account){
+    if (account) {
       login(account);
-      toast.success(`Welcome back, ${account.name}!`);
+      toast.success(`Добро пожаловать, ${account.name}!`);
       router.push('/popular');
-    }
-    else{
-      toast.error('Invalid username or password');
+    } else {
+      toast.error('Неверное имя пользователя или пароль');
     }
     setIsLoading(false);
   };
@@ -81,10 +80,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Subtle Background Pattern */}
+      {/* Фоновый узор */}
       <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(127,29,29,0.02)_25%,rgba(127,29,29,0.02)_50%,transparent_50%,transparent_75%,rgba(127,29,29,0.02)_75%)] bg-[length:20px_20px]"></div>
-      
-      {/* Decorative Pomegranate Elements */}
+
+      {/* Декоративные элементы */}
       <div className="absolute top-10 left-10 opacity-5">
         <motion.div
           variants={pomegranateVariants}
@@ -111,7 +110,7 @@ const Login = () => {
       >
         <motion.div variants={itemVariants}>
           <Card className="bg-white border-stone-200 shadow-xl">
-            {/* Header with Pomegranate Icon */}
+            {/* Заголовок */}
             <CardHeader className="text-center pb-6 pt-8">
               <motion.div
                 className="mx-auto mb-4"
@@ -121,17 +120,16 @@ const Login = () => {
                 <Image src={logo} alt='logo' width={120} height={120} className='rounded-xl' />
               </motion.div>
               <CardDescription className="text-stone-600 mt-2">
-                Restaurant Management System
+                Система управления рестораном
               </CardDescription>
             </CardHeader>
 
             <CardContent className="pb-8">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Username Field */}
                 <motion.div variants={itemVariants}>
                   <Label htmlFor="username" className="text-stone-700 flex items-center gap-2 mb-3 font-medium">
                     <User className="h-4 w-4 text-burgundy-600" />
-                    Username
+                    Имя пользователя
                   </Label>
                   <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                     <Input
@@ -139,20 +137,20 @@ const Login = () => {
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Enter your username"
+                      placeholder="Введите имя пользователя"
                       className="bg-white border-stone-300 focus:border-burgundy-600 focus:ring-burgundy-600/20 transition-all duration-300"
                       required
                     />
                   </motion.div>
                 </motion.div>
 
-                {/* Password Field */}
+                {/* Поле пароля */}
                 <motion.div variants={itemVariants}>
                   <Label htmlFor="password" className="text-stone-700 flex items-center gap-2 mb-3 font-medium">
                     <Lock className="h-4 w-4 text-burgundy-600" />
-                    Password
+                    Пароль
                   </Label>
-                  <motion.div 
+                  <motion.div
                     className="relative"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -162,7 +160,7 @@ const Login = () => {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Enter your password"
+                      placeholder="Введите пароль"
                       className="bg-white border-stone-300 focus:border-burgundy-600 focus:ring-burgundy-600/20 pr-10 transition-all duration-300"
                       required
                     />
@@ -182,7 +180,7 @@ const Login = () => {
                   </motion.div>
                 </motion.div>
 
-                {/* Login Button */}
+                {/* Кнопка входа */}
                 <motion.div variants={itemVariants}>
                   <Button
                     type="submit"
@@ -196,21 +194,21 @@ const Login = () => {
                         className="h-5 w-5 border-2 border-white border-t-transparent rounded-full"
                       />
                     ) : (
-                      'Sign In'
+                      'Войти'
                     )}
                   </Button>
                 </motion.div>
               </form>
 
-              {/* Simple Footer Note */}
-              <motion.div 
+              {/* Нижняя подпись */}
+              <motion.div
                 className="mt-8 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
               >
                 <p className="text-sm text-stone-500">
-                  Secure access to restaurant management
+                  Безопасный доступ к системе управления рестораном
                 </p>
               </motion.div>
             </CardContent>
@@ -221,4 +219,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default Login;
