@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import Header from '@/common/Header';
 import * as XLSX from 'xlsx';
+import { useRouter } from 'next/navigation';
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/api',
@@ -53,7 +54,8 @@ const SendCheckPageBuilder = () => {
   const [guests, setGuests] = useState<Guest[]>([])
   const [guestsLoading, setGuestsLoading] = useState(true)
   const [isDragOver, setIsDragOver] = useState(false)
-
+  const router = useRouter()
+  // router.push('')
   useEffect(()=>{
     const fetchGuests = async()=>{
       try{
