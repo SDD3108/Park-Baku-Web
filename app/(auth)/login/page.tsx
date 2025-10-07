@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion,easeInOut  } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
@@ -60,7 +60,7 @@ const Login = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100
       }
     }
@@ -74,7 +74,7 @@ const Login = () => {
       transition: {
         duration: 6,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: easeInOut
       }
     }
   };
