@@ -1,5 +1,5 @@
 import React from 'react'
-import SendCheckPageBuilder from '@/pageBuilder/sendCheckPageBuilder'
+import SendCheckPageBuilder from '@/pageBuilder/sendCheckPageBuilder/sendCheckPageBuilder'
 
 const SendCheckPage = () => {
   return (
