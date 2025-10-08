@@ -25,7 +25,7 @@ const PopularProductPage = () => {
   const [timeRange, setTimeRange] = useState<'all' | 'week' | 'month'>('all');
 
   const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: 'https://park-baku-1.onrender.com/api',
     headers: {
       'Authorization': 'Bearer 9014bf1230364c329d25186c13b44775'
     }
