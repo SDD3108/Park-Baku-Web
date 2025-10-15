@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Skeleton } from '@/ui/skeleton';
 import { toast } from 'sonner';
 import Header from '@/common/Header';
-import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
+// import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
 
 interface PopularDish{
   rank: number
@@ -87,7 +87,7 @@ const PopularPageBuilder = () => {
   }
 
   return (
-    <ProtectedRoute allowedRoles={['admin', 'accountant']}>
+    // <ProtectedRoute allowedRoles={['admin', 'accountant']}>
     <div className="min-h-screen bg-stone-50">
       <Header />
       
@@ -340,7 +340,7 @@ const PopularPageBuilder = () => {
         </motion.div>
       </div>
     </div>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 };
 
