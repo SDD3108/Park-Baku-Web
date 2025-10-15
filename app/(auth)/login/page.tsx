@@ -34,7 +34,7 @@ const Login = () => {
     if(account){
       login(account)
       toast.success(`Добро пожаловать, ${account.name}!`)
-      router.push('/popular')
+      router.push('/send')
     }
     else{
       toast.error('Неверное имя пользователя или пароль')
